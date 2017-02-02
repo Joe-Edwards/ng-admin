@@ -1,10 +1,11 @@
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var path = require('path');
 
 module.exports = {
     entry: {
         'ng-admin': [
-            __dirname + '/src/javascripts/ng-admin.js',
-            __dirname + '/src/sass/ng-admin.scss',
+            './src/javascripts/ng-admin.js',
+            './src/sass/ng-admin.scss',
         ],
     },
     output: process.env.NODE_ENV === 'test' ? {
@@ -16,8 +17,8 @@ module.exports = {
     },
     module: {
         loaders: [
-            { test: /\.js/, loaders: ['babel'], include: __dirname + '/src/javascripts' },
-            { test: /\/angular\.min\.js$/, loader: 'exports?angular' },
+            { test: /\.js/, loaders: ['babel'], include: path.resolve(__dirname, 'src/javascripts') },
+            { test: /angular\.min\.js$/, loader: 'exports?angular' },
             { test: /\.html$/, loader: 'html' },
             { test: /\.(woff2?|svg|ttf|eot)(\?.*)?$/, loader: 'url' },
             { test: /\.css$/, loader: ExtractTextPlugin.extract('css') },
@@ -26,7 +27,7 @@ module.exports = {
     },
     resolve: {
         alias: {
-            angular: __dirname + '/node_modules/angular/angular.min.js',
+            angular: path.resolve(__dirname, 'node_modules/angular/angular.min.js'),
         },
     },
     plugins: [

@@ -14,7 +14,7 @@
     "lib/"
   ],
   "dependencies": {
-    "admin-config": "git://github.com/Joe-Edwards/admin-config.git#bbcm",
+    "admin-config": "git://github.com/Joe-Edwards/admin-config.git#e6b63283239d8a93fa322d14b6e1e8506b1ddd66",
     "angular": "~1.6.1",
     "angular-numeraljs": "^1.1.6",
     "angular-sanitize": "^1.3.15",
