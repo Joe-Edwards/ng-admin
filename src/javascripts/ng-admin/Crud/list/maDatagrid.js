@@ -31,7 +31,7 @@ export default function maDatagrid() {
                     {{ field.label() | translate }}
                 </a>
                 <span ng-if="!field.sortable()">
-                    {{ field.label() }}
+                    {{ field.label() | translate }}
                 </span>
             </th>
             <th ng-if="datagrid.shouldDisplayActions" class="ng-admin-column-actions" translate="ACTIONS"></th>

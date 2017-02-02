@@ -130,7 +130,7 @@ admin.customTemplate(function(viewName) {
 
 ## Customizing the Dashboard
 
-If you want to use a custom template dashboard, you must [define a custom dashboard configuration](doc/Dashboard.md). This will give you access to the `dashboard.template()` function:
+If you want to use a custom template dashboard, you must [define a custom dashboard configuration](Dashboard.md). This will give you access to the `dashboard.template()` function:
 
 ```js
 var myTemplate = require('text!./path/to/dashboard.html');
@@ -180,4 +180,38 @@ You can use the `app.errorMessage()`, `entity.errorMessage()` or `view.errorMess
 entity.errorMessage(function (response) {
     return 'Global error: ' + response.status + '(' + response.data + ')';
 });
+```
+## Customizing HTTP Error Messages
+
+If you want to override, patch or extend the way HTTP errors are handled by the ng-admin [Http Error Service](../src/javascripts/ng-admin/Main/component/provider/HttpErrorService.js) then you may use an [Angular decorator](https://docs.angularjs.org/guide/decorators), as per the below example:
+
+Create a decorator, HttpErrorDecorator.js
+
+```js
+// Change HTTP 403 error notification to display them as information
+// and not errors ('humane-flatty-info' instead of 'humane-flatty-error')
+export const HttpErrorDecorator = ($delegate, $translate, notification) => {
+    $delegate.handle403Error = error => {
+        $translate('STATE_FORBIDDEN_ERROR', {
+            message: error.data.message,
+        }).then(text => notification.log(text, {
+            addnCls: 'humane-flatty-info',
+        }));
+
+        throw error;
+    };
+
+	return $delegate;
+}
+
+HttpErrorDecorator.$inject = ['$delegate', '$translate', 'notification'];
+
+export default HttpErrorDecorator;
+
+```
+
+Bind the decorator to your application:
+
+```js
+myApp.decorator('HttpErrorService',require('HttpErrorDecorator'));
 ```

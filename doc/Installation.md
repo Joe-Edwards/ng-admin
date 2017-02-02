@@ -1,14 +1,14 @@
 # Installation
 
-Grab ng-admin from your favorite package manager, `npm` or `bower`:
+Grab ng-admin from your favorite package manager:
 
 ```sh
 npm install ng-admin --save
 # or
-bower install ng-admin --save
+yarn install ng-admin
 ```
 
-Add the `ng-admin.min.css` and `ng-admin.min.js` to the HTML, add a `<div ui-view>`, and configure the admin:
+Add the `ng-admin.min.css` and `ng-admin.min.js` to the HTML, add a `<div ui-view="ng-admin">`, and configure the admin:
 
 ```html
 <!doctype html>
@@ -18,7 +18,7 @@ Add the `ng-admin.min.css` and `ng-admin.min.js` to the HTML, add a `<div ui-vie
     <link rel="stylesheet" href="node_modules/ng-admin/build/ng-admin.min.css">
   </head>
   <body ng-app="myApp">
-    <div ui-view></div>
+    <div ui-view="ng-admin"></div>
     <script src="node_modules/ng-admin/build/ng-admin.min.js"></script>
     <script type="text/javascript">
     var myApp = angular.module('myApp', ['ng-admin']);

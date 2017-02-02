@@ -5,26 +5,78 @@ ng-admin [![Build Status](https://travis-ci.org/marmelab/ng-admin.svg?branch=mas
 
 Plug me to your RESTFul API to get a complete administration interface (datagrid, filters, complex form widgets, multi-model relationships, dashboard) in no time! Beyond simple CRUD, ng-admin lets you build sophisticated GUIs without getting in your way.
 
-[![Screencast](http://static.marmelab.com/ng-admin-09-video-thumbnail.png)](https://vimeo.com/143909685)
+[![Screencast](https://static.marmelab.com/ng-admin-09-video-thumbnail.png)](https://vimeo.com/143909685)
 
 * [Online demo](http://marmelab.com/ng-admin-demo/) ([source](https://github.com/marmelab/ng-admin-demo))
 * [Documentation](http://ng-admin-book.marmelab.com/)
 
 ## Installation
 
-The current ng-admin version (master) depends on Angular.js 1.4. If you need compatibility with Angular 1.3, use [ng-admin 0.9](https://github.com/marmelab/ng-admin/releases/tag/v0.9.1).
+The current ng-admin version (master) depends on Angular.js 1.6. If you need compatibility with Angular 1.3, use [ng-admin 0.9](https://github.com/marmelab/ng-admin/releases/tag/v0.9.1).
 
-Grab ng-admin from your favorite package manager, `npm` or `bower`:
+Grab ng-admin from your favorite package manager:
 
 ```sh
 npm install ng-admin --save
 # or
-bower install ng-admin --save
+yarn install ng-admin
 ```
 
-Add the `ng-admin.min.css` and `ng-admin.min.js` to the HTML, add a `<div ui-view>`, and configure the admin:
+### With a Module Bundler
 
-```html
+`ng-admin` is fully compatible with Webpack, and should also be compatible with all
+available major module bundlers. If you use one of them, you just have to add this line:
+
+``` js
+const myApp = angular.module('myApp', [
+    require('ng-admin'),
+    // ...
+]);
+```
+
+**Important note:** as we include HTML templates using `require` to prevent the AJAX
+request implied by `templateUrl`, you will need to configure your module bundler
+to deal with HTML. It can be accomplished with Webpack using the HTML loader:
+
+``` js
+module.exports = {
+    // ...
+    module: {
+        loaders: [
+            // ...
+            { test: /\.html$/, loader: 'html' },
+        ]
+    },
+};
+```
+
+If your module bundler also supports SASS or CSS, you can also include stylesheets using:
+
+``` js
+// SASS version
+require('ng-admin/lib/sass/ng-admin.scss');
+
+// CSS version
+require('ng-admin/build/ng-admin.min.css');
+```
+
+Using a module bundler, you would also be able to generate the source map for all your JavaScript
+and stylesheets, helping you to hunt even the most obscure bugs.
+
+### Without a Module Bundler
+
+If you don't have a module bundler, don't worry: you can still include `ng-admin` with a `<script>` tag:
+
+``` html
+<link rel="stylesheet" href="node_modules/ng-admin/build/ng-admin.min.css">
+<script src="node_modules/ng-admin/build/ng-admin.min.js"></script>
+```
+
+## Bootstrapping your Admin
+
+Add the `ng-admin.min.css` and `ng-admin.min.js` to the HTML, add a `<div ui-view="ng-admin">`, and configure the admin:
+
+``` html
 <!doctype html>
 <html lang="en">
   <head>
@@ -32,7 +84,7 @@ Add the `ng-admin.min.css` and `ng-admin.min.js` to the HTML, add a `<div ui-vie
     <link rel="stylesheet" href="node_modules/ng-admin/build/ng-admin.min.css">
   </head>
   <body ng-app="myApp">
-    <div ui-view></div>
+    <div ui-view="ng-admin"></div>
     <script src="node_modules/ng-admin/build/ng-admin.min.js"></script>
     <script type="text/javascript">
     var myApp = angular.module('myApp', ['ng-admin']);
@@ -56,7 +108,7 @@ See the [Getting Started](doc/Getting-started.md) dedicated chapter for a step-b
 
 ## Usage Examples
 
-* You can find a simple configuration in the [blog admin demo](http://ng-admin.marmelab.com/#/dashboard) ([source](examples/blog/config.js)), where the entities are posts, comments, and tags.  The remote REST API is simulated in the browser, using [FakeRest](https://github.com/marmelab/FakeRest).
+* You can find a simple configuration in the [blog admin demo](examples/blog/config.js), where the entities are posts, comments, and tags. The remote REST API is simulated in the browser, using [FakeRest](https://github.com/marmelab/FakeRest).
 * The [Posters Galore demo](http://marmelab.com/ng-admin-demo/) ([source](https://github.com/marmelab/ng-admin-demo)) is a more complete example of an e-commerce administration, with custom authentication, pages, directives and modules, all well organized via WebPack. The remote REST API is also simulated in the browser, using [FakeRest](https://github.com/marmelab/FakeRest).
 
 ## Configuration Reference
@@ -154,6 +206,10 @@ Ng-admin is an open-source project, with a community getting larger every  day. 
 
 Please give as much context as possible, including and admin configuration snippet, and the response from the API you're mapping.
 
+## Looking For a Material UI / React.js version?
+
+[marmelab/admin-on-rest](https://github.com/marmelab/admin-on-rest), by the same team, uses a different architecture but provides a similar service: an admin GUI for REST APIs, this time with React.js, Redux, react-router, and material UI.
+
 ## Contributing
 
 Your feedback about the usage of ng-admin in your specific context is valuable, don't hesitate to [open GitHub Issues](https://github.com/marmelab/ng-admin/issues) for any problem or question you may have.
@@ -191,7 +247,7 @@ make test
 **Tip:** If you are working on Karma tests, you can prevent from relaunching the whole process by disabling single-run:
 
 ```
-KARMA_SINGLE_RUN=false ./node_modules/.bin/grunt karma:unit
+./node_modules/.bin/karma start src/javascripts/test/karma.conf.js
 ```
 
 ### Releasing
@@ -204,7 +260,7 @@ git add build
 git commit -m 'update built files'
 git push origin master
 git tag vx.x.x
-# publish to bower
+# create a new tag
 git push origin --tags
 # publish to npm
 npm publish

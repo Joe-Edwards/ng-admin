@@ -3,8 +3,7 @@
 /*
  * This is an example ng-admin configuration for a blog administration composed
  * of three entities: post, comment, and tag. Reading the code and the comments
- * will help you understand how a typical ng-admin application works. You can
- * browse the result online at http://ng-admin.marmelab.com.
+ * will help you understand how a typical ng-admin application works.
  *
  * The remote REST API is simulated in the browser, using FakeRest
  * (https://github.com/marmelab/FakeRest). Look at the JSON responses in the
@@ -74,7 +73,7 @@
             return value.length > 50 ? value.substr(0, 50) + '...' : value;
         }
 
-        var admin = nga.application('ng-admin backend demo') // application main title
+        var admin = nga.application('ng-admin blog demo') // application main title
             .debug(false) // debug disabled
             .baseApiUrl('http://localhost:3000/'); // main API endpoint
 
@@ -579,7 +578,7 @@
 
     app.config(['$stateProvider', function ($stateProvider) {
         $stateProvider.state('send-post', {
-            parent: 'main',
+            parent: 'ng-admin',
             url: '/sendPost/:id',
             params: { id: null },
             controller: sendPostController,
@@ -590,15 +589,15 @@
 
     // custom page with menu item
     var customPageTemplate = '<div class="row"><div class="col-lg-12">' +
-            '<ma-view-actions><ma-back-button></ma-back-button></ma-view-actions>' +
             '<div class="page-header">' +
+                '<ma-view-actions><ma-back-button></ma-back-button></ma-view-actions>' +
                 '<h1>Stats</h1>' +
                 '<p class="lead">You can add custom pages, too</p>' +
             '</div>' +
         '</div></div>';
     app.config(['$stateProvider', function ($stateProvider) {
         $stateProvider.state('stats', {
-            parent: 'main',
+            parent: 'ng-admin',
             url: '/stats',
             template: customPageTemplate
         });
